@@ -1,0 +1,262 @@
+定义：
+function renderView(viewElement, viewHtml, model) {
+    
+	var renderTemp = _.template(viewHtml);
+    
+	viewElement.html(renderTemp(model));
+
+  }
+使用：
+renderView($('#couponCard'), $('#couponCardTpl').html(), {'myModel': model });
+
+1.0 循环 
+{{_.each(model, function(val, key){}}
+
+	{{= val.xxx }}
+
+{{})}}
+
+
+2.0 判断
+{{if(!model.isLogin){}}
+
+{{ }else{ }}
+
+{{ } }}
+
+3.0  按顺序执行，当p1,p2执行完之后在执行里面的代码
+    const p2 = new Promise((resolve, reject) => {
+      if (postData.isLogin) {
+        $.ajax({
+          url: "/heg_api/commonTavelers/getCommTraInfo.do",
+          type: "GET",
+          dataType: 'json',
+        }).done((res) => {
+          postData.travellerHis = res;
+          resolve();
+        }).fail(err => {
+          resolve();
+        });
+      } else {
+        resolve();
+      }
+
+    });
+
+   Promise.all([p1, p2]).then((res) => {
+      passportController(postData.isPassPort);
+      getPaymentChannel().then(res => {
+        postData.paymentChannel = res;
+      }).catch(err => {
+        postData.paymentChannel = [];
+      });
+    });
+
+4.0 淡入 停留  淡出
+$ (TipsMsg).fadeIn(500).delay(2000).fadeOut(2000);
+
+5.0 点击按钮 复制文本
+    var val =$($(this).siblings('.code')[0]).children('.couponCode')[0];
+    window.getSelection().selectAllChildren(val);
+    document.execCommand('Copy' );
+
+6.0
+$.when($.ajax("test1.html"), $.ajax("test2.html"))
+
+　　.done(function(){ alert("哈哈，成功了！"); })
+
+　　.fail(function(){ alert("出错啦！"); });
+这段代码的意思是，先执行两个操作$.ajax("test1.html")和$.ajax("test2.html")，
+如果都成功了，就运行done()指定的回调函数；如果有一个失败或都失败了，就执行fail()指定的回调函数。
+
+7.0 单行显示
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+8.0 多行显示
+   overflow:hidden; 
+
+   text-overflow:ellipsis;
+
+   display:-webkit-box; 
+
+   -webkit-box-orient:vertical;
+
+9.0 -webkit-  滚动条 样式修改
+
+   &::-webkit-scrollbar{
+      width: 3px;
+    }
+   &::-webkit-scrollbar-thumb{
+     border-radius: 10px;
+     background-color: #555;
+    }
+
+10 textarea 换行
+	xxxx &#10; xxxx
+11. p标签在div中居中
+.box{
+    width: 200px;
+    height: 200px;
+    border: 1px solid red;
+    display: box;
+    box-pack:center;
+    box-orient:vertical;
+    display: -webkit-box;
+    -webkit-box-pack:center;
+    -webkit-box-orient:vertical;
+}
+12 Map 方法
+Map
+Map是一组键值对的结构，具有极快的查找速度。
+
+举个例子，假设要根据同学的名字查找对应的成绩，如果用Array实现，需要两个Array：
+
+var names = ['Michael', 'Bob', 'Tracy'];
+var scores = [95, 75, 85];
+给定一个名字，要查找对应的成绩，就先要在names中找到对应的位置，再从scores取出对应的成绩，Array越长，耗时越长。
+
+如果用Map实现，只需要一个“名字”-“成绩”的对照表，直接根据名字查找成绩，无论这个表有多大，查找速度都不会变慢。用JavaScript写一个Map如下：
+
+var m = new Map([['Michael', 95], ['Bob', 75], ['Tracy', 85]]);
+m.get('Michael'); // 95
+初始化Map需要一个二维数组，或者直接初始化一个空Map。Map具有以下方法：
+
+var m = new Map(); // 空Map
+m.set('Adam', 67); // 添加新的key-value
+m.set('Bob', 59);
+m.has('Adam'); // 是否存在key 'Adam': true
+m.get('Adam'); // 67
+m.delete('Adam'); // 删除key 'Adam'
+m.get('Adam'); // undefined
+由于一个key只能对应一个value，所以，多次对一个key放入value，后面的值会把前面的值冲掉：
+
+var m = new Map();
+m.set('Adam', 67);
+m.set('Adam', 88);
+m.get('Adam'); // 88
+
+13.JS返回上一页并刷新 
+window.history.go(-1);//返回上一页不刷新
+ window.location.href = document.referrer;//返回上一页并刷新
+	
+14 Math.trunc方法用于去除一个数的小数部分，返回整数部分。
+
+15 如果要将0b和0o前缀的字符串数值转为十进制，要使用Number方法。
+	Number('0b111')  // 7
+    Number('0o10')  // 8
+    
+16   用户的等待延时可以分成两部分：可控等待延时和不可控等待延时。可控等待延时可以理解为能通过技术手段和优化来改进缩短的部分，例如减小图片大小让请求加载更快、减少HTTP请求数等。不可控等待延时则是不能或很难通过前后端技术手段来改进优化的，例如鼠标点击延时、CPU计算时间延时、ISP（Internet Service Provider，互联网服务提供商）网络传输延时等。
+获取和衡量一个页面的性能，主要可以通过以下几个方面：Performance Timing API、Profile工具、页面埋点计时、资源加载时序图分析。
+1.0 erformanceTimingAPI是一个支持InternetExplorer9以上版本及WebKit内核浏览器中用于记录页面加载和解析过程中关键时间点的机制，它可以详细记录每个页面资源从开始加载到解析完成这一过程中具体操作发生的时间点，这样根据开始和结束时间戳就可以计算出这个过程所花的时间了。
+二、 Profile工具
+
+Performance Timing API描述了页面资源从加载到解析各个阶段的执行关键点时间记录，但是无法统计JavaScript执行过程中系统资源的占用情况。Profile是Chrome和Firefox等标准浏览器提供的一种用于测试页面脚本运行时系统内存和CPU资源占用情况的API，
+三、 页面埋点计时
+
+使用Profile可以在一定程度上帮助我们分析页面的性能，但缺点是不够灵活。实际项目中，我们不会过多关注页面内存或CPU资源的消耗情况，因为JavaScript有自动内存回收机制。我们关注更多的是页面脚本逻辑执行的时间。
+四、资源加载时序图
+
+我们还可以借助浏览器或其他工具的资源加载时序图来帮助分析页面资源加载过程中的性能问题。这种方法可以粗粒度地宏观分析浏览器的所有资源文件请求耗时和文件加载顺序情况，
+
+17 
+网络知识，包括DNS协议，HTTP协议，HTTPS协议，TCP协议，IP协议，TCP/IP，Web攻击，其他协议。
+1. DNS 协议
+作用：提供域名到IP地址之间的解析服务。或逆向从IP地址反查域名的服务。
+2. HTTP协议
+2.1 特点
+	无状态
+	使用URI定义互联网资源
+	HTTP方法
+		GET：获取资源
+		POST:传输实体主体
+		PUT：传输文件
+		HEAD：获得报文首部
+		DELETE：删除文件
+		OPTIONS：询问支持的方法
+		TRACE：追踪路径
+		CONNECT：要求用隧道协议连接代理
+	持久连接节省通信量
+	管线化实现并行发送多个请求，而不需要一个接一个等响应
+2.2 HTTP 报文
+    用于HTTP协议交互的信息称为HTTP报文。
+    请求报文：
+		报文首部
+			请求行
+			请求首部字段
+			通用首部字段
+			实体首部字段
+			其他
+		空行
+		报文主体
+	响应报文：
+		报文首部
+			状态行
+			响应首部字段
+			通用首部字段
+			实体首部字段
+			其他
+		空行
+		报文主体
+	发送多种数据的多部分对象集合：
+		MIME
+		multipart/form-data
+   内容协商：
+		服务器驱动协商
+		客户端驱动协商
+		透明协商
+		
+2.3 HTTP状态码
+	1XX：接收的请求正在处理
+	2XX：请求正常处理完毕
+	3XX：需要进行附加操作以完成请求
+	4XX：服务器无法处理请求
+	5XX：服务器处理请求出错
+	
+2.5 Cookie与Session的区别
+	1、存取方式的不同
+Cookie中只能保管ASCII字符串，假如需求存取Unicode字符或者二进制数据，需求先进行编码。Cookie中也不能直接存取Java对象。若要存储略微复杂的信息，运用Cookie是比较艰难的。
+		Session中能够存取任何类型的数据，包括而不限于String、Integer、List、Map等。Session中也能够直接保管Java Bean乃至任何Java类，对象等，运用起来十分便当。能够把Session看做是一个Java容器类。
+	2、隐私策略的不同
+		Cookie存储在客户端阅读器中，对客户端是可见的，客户端的一些程序可能会窥探、复制以至修正Cookie中的内容。
+		Session存储在服务器上，对客户端是透明的，不存在敏感信息泄露的风险。
+	3、有效期上的不同
+	Cookie的过期时间指定
+Session依赖于名为JSESSIONID的Cookie，而CookieJSESSIONID的过期时间默许为–1，只需关闭了浏览器该Session就会失效，因而Session不能完成信息永世有效的效果。
+3、服务器压力的不同
+Cookie保管在客户端，不占用服务器资源。假如并发阅读的用户十分多，Cookie是很好的选择。关于Google、Baidu、Sina来说，Cookie或许是唯一的选择。
+		Session是保管在服务器端的，每个用户都会产生一个Session。假如并发访问的用户十分多，会产生十分多的Session，耗费大量的内存。因而像Google、Baidu、Sina这样并发访问量极高的网站，是不太可能运用Session来追踪客户会话的。
+	4、浏览器支持的不同
+	Cookie是需要客户端浏览器支持的。
+	假如客户端浏览器不支持Cookie，需要运用Session以及URL地址重写。
+	5、跨域支持上的不同
+	Cookie支持跨域名访问，例如将domain属性设置为“.biaodianfu.com”，则以“.biaodianfu.com”为后缀的一切域名均能够访问该Cookie。跨域名Cookie如今被普遍用在网络中，例如Google、Baidu、Sina等。
+	Session则不会支持跨域名访问。Session仅在他所在的域名内有效。
+	
+2.6 电脑访问网页的过程
+	用到的协议：DNS、HTTP、OSPF、IP、ARP。
+	过程描述：
+		DNS把域名解析成对应的IP
+		发送一次请求，服务器返回一个永久重定向响应，这样浏览器就知道要访问的正确网址
+		发送请求html的请求，这个连接过程基于TCP/IP三次握手四次挥手的，建立连接
+		服务器返回一个html响应
+		浏览器根据渲染引擎解析返回的html响应，呈现内容
+		继续发送内嵌在html文件其他资源的请求，比如css、js、图片资源等
+		加载整个页面
+		
+3. HTTPS协议
+	3.1 HTTP缺点
+		通信使用明文可能会被窃听，解决方式：
+		通信加密。SSL和TLS组合使用
+		内容加密
+	3.2 HTTP+加密+认证+完整性保护=HTTPS
+	3.3 HTTPS是身披SSL外壳的HTTP
+	3.4 HTTP采用混合加密机制
+	3.5 证明公开密钥正确性的证书	
+HTTP缓存机制及原理	对于强制缓存，服务器通知浏览器一个缓存时间，在缓存时间内，下次请求，直接用缓存，不在时间内，执行比较缓存策略。
+对于比较缓存，将缓存信息中的Etag和Last-Modified通过请求发送给服务器，由服务器校验，返回304状态码时，浏览器直接使用缓存。
+
+
+	
+	

@@ -1,0 +1,57 @@
+<View className="sweepstakes_case">
+  <View>
+  <View>
+    <View className="numCase">
+    <View className="numBox">
+      <View> </View>
+    </View>
+    </View>
+    <View className="numCase">
+      <View className="numBox">
+        <View> </View>
+      </View>
+    </View>
+    <View className="numCase">
+    <View className="numBox">
+      <View> </View>
+    </View>
+    </View>
+  </View>
+  </View>
+</View>
+<script>
+onStart = () => {
+  console.log (isBegin);
+  this.lotteryResult ();
+
+  if (isBegin) return false;
+  isBegin = true;
+  $ ('.numBox div').css ('backgroundPositionY', 0);
+  // var result = this.numRand ();
+  var result = 245;
+
+  var num_arr = (result + '').split ('');
+  console.log (num_arr);
+  $ ('.numCase ').each (function (index) {
+    var _num = $ (this).find ('.numBox div');
+    setTimeout (function () {
+      _num.animate (
+        {
+          // backgroundPositionY: u * 60 - u * num_arr[index],
+          backgroundPositionY: u * num * 3 + u * num_arr[index],
+        },
+        {
+          duration: 6000 + index * 3000,
+          easing: 'easeInOutCirc',
+          complete: function () {
+            if (index == 2) isBegin = false;
+          },
+        }
+      );
+    }, index * 300);
+  });
+};
+</script>
+      
+      
+    

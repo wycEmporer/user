@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.slot {
+				float: left;
+				margin: 0.4em;
+			}
+			
+			.slot__window {
+				background-color: green;
+				width: 200px;
+				height: 200px;
+				overflow: hidden;
+			}
+			
+			.slot__wrap {}
+			
+			.slot__item {
+				margin-top: 20px;
+				height: 160px;
+				width: 180px;
+				padding: 0 10px;
+				text-align: center;
+				background-color: blue;
+				color: white;
+				line-height: 160px;
+			}
+			
+			.slot__item--copy {}
+		</style>
+	</head>
+
+	<body>
+		<div id="app">
+			<slot-machine ref="slot-machine"></slot-machine>
+		</div>
+	</body>
+	<script src="https://unpkg.com/vue@2.4.2/dist/vue.js"></script>
+</html>
+<script type="text/javascript">
+const next = window.requestAnimationFrame ||
+	window.webkitRequestAnimationFrame ||
+	window.mozRequestAnimationFrame ||
+	window.msRequestAnimationFrame ||
+	window.oRequestAnimationFrame || function(cb) { window.setTimeout(cb, 1000/60) }
+
+const slotMachine = {
+  data: function() {
+  	return {
+      slots: [
+        {title: "When",items: [
+        "today","next week","last year","tomorrow","yesterday"
+        ]},
+        {title: "Where",items: [
+        "at home","at work","at school","at the gym","at the park","at the beach","at the sidewalk","at the city",
+        ]},
+        {title: "How",items: [
+        "cycling","walking","swimming","flying",
+        ]}
+      ],
+      opts: null,
+      startedAt: null,
+    }
+  },
+  template: `<div class='slot-machine'> 
+              <button @click='start'>start</button> 
+              <div class='slot' v-for='slot in slots' ref='slots'> 
+                <h2>{{ slot.title }}</h2> 
+                <div class='slot__window'> 
+                  <div class='slot__wrap'> 
+                    <div class='slot__item' v-for='opt in slot.items'>{{ opt }}</div> 
+                    <div class='slot__item slot__item--copy' >{{ slot.items[0] }}</div>
+                  </div> 
+                </div> 
+              </div>
+            </div>`,
+  methods: {
+  	start: function() {
+      if (this.opts) {
+        return
+      }		
+      this.opts = this.slots.map( (data, i) => {
+        const slot = this.$refs.slots[i];// map(function(){})利用map便利slots的每一个选项组,最终得到return的返回值
+        const choice = Math.floor( Math.random() * data.items.length );// 随机生成一个[0,data.items.length]的整数(floor向下取整)
+        console.log("choice", i, choice, data.items[choice])
+        const opts = {
+          el: slot.querySelector('.slot__wrap'),//指向奖项元素的父级;
+          finalPos: choice * 180,// 180为每一个奖品滚动标签的高度;
+//        startOffset: 2000 + Math.random() * 500 + i * 500,// 影响转的圈数
+          startOffset: Math.random() * 500 + i * 500,// 影响转的圈数
+          height: data.items.length * 180,
+          duration: 3000 + i * 700, // milliseconds
+          isFinished: false,
+        }
+        return opts
+      })
+//    console.log(this.opts);//这个时候this.opts已经和opts一模一样了
+      next( this.animate );// 开启动画
+  	},
+    animate: function(timestamp) {// timestamp当前的方法持续的毫秒数
+	  if (this.startedAt == null) {
+      	this.startedAt = timestamp// 动画初始时间
+     }
+      const timeDiff = timestamp - this.startedAt//动画持续的时间
+      this.opts.forEach( opt => {
+      	if(opt.isFinished){
+        	return
+        }
+        const timeRemaining = Math.max(opt.duration - timeDiff, 0);// 总的持续时间 - 动画持续时间 = 剩下的时间,0表示结束
+        const power = 3
+        const offset = ( Math.pow(timeRemaining, power) / Math.pow(opt.duration, power) ) * opt.startOffset
+        // Math.pow(timeRemaining, power)表示: timeRemaining 的3 次幂;
+        // negative, such that slots move from top to bottom
+        const pos = -1 * Math.floor((offset + opt.finalPos) % opt.height)
+        opt.el.style.transform = "translateY(" + pos + "px)"
+        
+        if ( timeDiff > opt.duration ) {
+//        console.log('finished', opt, pos, opt.finalPost)
+        	opt.isFinished = true
+        }
+        
+      })  
+      if (this.opts.every( o => o.isFinished )) {
+      	this.opts = null
+        this.startedAt = null
+//      console.log('finished')
+      } else {
+        next( this.animate )
+      }
+    } 
+  }
+}
+
+
+new Vue({
+  el : '#app',
+  components: { slotMachine },
+  data: function() {
+  	return {}
+  }
+})
+</script>

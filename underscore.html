@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script src="https://cdn.bootcss.com/underscore.js/1.9.1/underscore.js"></script>
+<script>
+  var arrAy = [1,2,3,4,5,6,7,8,9];
+  var arrAyObj = [
+    {name:'xx',age:1},
+    {name:'sd',age:2},
+    {name:'ff',age:3},
+    {name:'cxv',age:1},
+  ];
+  var Obj = {
+    data :[
+      {name:'xx',age:12},
+      {name:'sd',age:25},
+      {name:'ff',age:251},
+      {name:'cxv',age:55},
+    ],
+    sdf:331,
+    sfsdfs:'dfge'
+  }
+
+  // _.each([1, 2, 3], alert);
+  // _.each(arrAy, function(val,index,list) {
+  //   console.log(val + '-' + index + '-' + list)
+  // },);
+  // var arr = _.map(arrAy , function(value,index,list){
+  //   return value*2
+  // });
+  // _.map([1, 2, 3], function(num){ return num * 3; });
+  // var num = _.reduce(arrAyObj,function(memo,value) {
+  //   return memo + value.age
+  // },0)
+  // var num = _.filter(arrAyObj,function (val){
+  //   if(val.age == 2) {
+  //     return val;
+  //   }
+  // })
+  // var num = _.find(arrAyObj,function (val){
+  //   if(val.age == 2) {
+  //     return val;
+  //   }
+  // })
+  // var num = _.some(arrAyObj,function (val){
+  //   if(val.age == 2) {
+  //     return val;
+  //   }
+  // })
+  // var num = _.max(arrAyObj,function(val){
+  //   return val.age
+  // })
+  var num = _.min(arrAyObj,function(val){
+    return val.age
+  })
+  console.log(num);
+</script>
+</html>

@@ -1,0 +1,44 @@
+一、 创建与合并分支
+1、 从master分支创建dev分支并切换到dev分支：
+		git checkout master    
+		git checkout  - b dev
+ 2.0 修改代码、提交代码（当前的操作是在dev分支上进行）
+		git add a.html    
+		git commit -m  "提交文件a.html"
+  3、分支合并(将dev合并到master)
+	   git checkout master     
+	   git merge dev
+  4、合并完成后，删除dev分支.(删除dev分支时，注意我们当前所在的分支不能是dev分支)
+		git branch - d dev
+6、总结 ：工作中经常从master创建新的分支，具体操作如下：
+		git checkout master   
+		git checkout - b  issues1234   
+		git push origin issues1234   
+		git add ..
+		git commit -m "***"
+		git push origin issues1234
+7、删除分支
+		git branch -D   issues1234  //本地强制删除分支issues1234    
+		git push origin  : issues1234  //推到远程
+二、 解决冲突
+		其中，git使用 <<<<<<<， =======， >>>>>>> 标记文件中自己和别人产生冲突的部分。
+
+		在 <<<<<<<， ======= 之间为自己的代码；
+
+		=======， >>>>>>> 之间为别人的代码。
+
+		如果保留自己的代码，将别人的代码删掉即可。
+		2、冲突解决后提交
+		git status
+		git add ***
+		git commit - m  "fix conflict"
+		git push origin  分支名
+四、版本回退
+1、回退至上一个版本
+    git reset --hard HEAD 
+2、回退至指定版本
+	git reset--hard  版本号
+3、查看以往版本号(本地的commit)
+	git reflog
+4、查看各版本号及信息(所有的commit：本地commit + 其他同事的commit)
+	git log
